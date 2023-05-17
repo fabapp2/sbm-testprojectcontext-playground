@@ -1,0 +1,18 @@
+== Playground project for SBMs TestProjectContext
+
+`TestProjectContext` now uses Spring to create the required beans.
+This is required since the `ExecutionContext` is a scope spring bean.
+The API of `TestProjectContext` must be extended to allow replacing Spring beans with mocks, similar to `@MockBean`.
+
+This playground project evaluates ``spring-boot-test``s `MockitoPostProcessor` aiming to reuse the functionality to replace Sprig beans with custom instances, e.g. mocks.
+
+[source, java]
+----
+
+ApplicationEventPublisher eventPublisherMock = mock(Application);
+
+TestProjectContext.buildProjectContext()
+  ...
+  .withBean(ApplicationEventPublisher.class, eventPublisherMock)
+  ...
+----
