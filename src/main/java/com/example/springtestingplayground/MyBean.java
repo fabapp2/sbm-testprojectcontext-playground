@@ -25,10 +25,18 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MyBean {
-    @Autowired
     private ApplicationEventPublisher eventPublisher;
 
     public ApplicationEventPublisher getEventPublisher() {
         return eventPublisher;
+    }
+
+    @Autowired
+    public void setEventPublisher(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
+
+    public void publishEvent(Object event) {
+        eventPublisher.publishEvent(event);
     }
 }

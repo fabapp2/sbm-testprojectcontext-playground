@@ -18,6 +18,7 @@ package com.example.springtestingplayground;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -40,10 +41,12 @@ public class ProgrammaticApplicationContextWithMocksTest {
     void test_renameMe() {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(beanFactory);
-        Field field = ReflectionUtils.findField(ProgrammaticApplicationContextWithMocksTest.class, "eventPublisher");
+        Field field = ReflectionUtils.findField(MyBean.class, "eventPublisher");
+        boolean serializable = false;
+        Answers answer = null;
         MockDefinition mockDefinition = new MockDefinition("applicationEventPublisher", ResolvableType.forClass(
-                ApplicationEventPublisher.class), new Class[0], null, false, MockReset.NONE, new QualifierDefinition(field,
-                                                                                                            Set.of()));
+                ApplicationEventPublisher.class), new Class[0], answer, serializable, MockReset.NONE, new QualifierDefinition(field,
+                                                                                                                              Set.of()));
         applicationContext.addBeanFactoryPostProcessor(new MockitoPostProcessor(Set.of(mockDefinition)));
         applicationContext.register(MyBean.class);
         applicationContext.refresh();
